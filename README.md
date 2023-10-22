@@ -5,7 +5,7 @@
 1. Docker Setup: Set up a server with Docker Compose containing Nginx, a GoLang service, and a PostgreSQL database.
 2. Build Backend: Implement the backend server with the specified API.
 3. Database Logging: Store logs of requests and responses in a PostgreSQL database.
-4. Unit Tests: Write unit tests for your application.
+4. Unit Tests: Write unit tests for application.
 
 ## Running the Application
 `docker compose up --build`
