@@ -32,11 +32,13 @@ func connectToDB() *pg.DB {
 
 func createTable(db *pg.DB) {
 	_, err := db.Exec(`CREATE TABLE IF NOT EXISTS logs (
-		ID SERIAL PRIMARY KEY,
-		method VARCHAR(255) NOT NULL,
-		url VARCHAR(255) NOT NULL,
-		status INT NOT NULL,
-		response_time INT NOT NULL
+		log_id SERIAL PRIMARY KEY,
+    timestamp TIMESTAMPTZ DEFAULT current_timestamp,
+    method VARCHAR(10),
+    url TEXT,
+    request_body TEXT,
+    response_status INT,
+		response_time INT
 	);`)
 	if err != nil {
 		log.Printf("Error while creating table, reason: %v\n", err)
