@@ -8,14 +8,14 @@
 4. Unit Tests: Write unit tests for your application.
 
 ## Running the Application
-docker compose up --build
+`docker compose up --build`
 
 ## Running the tests
-go test -v ./tests/unit_test/pkg/auth/password_test.go
+`go test -v ./tests/unit_test/pkg/auth/password_test.go`
 
 ## API Endpoints
 `GET`
-127.0.0.1:8080/api/strong_password_steps
+`127.0.0.1:8080/api/strong_password_steps`
 
 ## Project structure
 ```bash
