@@ -17,6 +17,16 @@
 `GET`
 `127.0.0.1:8080/api/strong_password_steps`
 
+### example request.json
+    {
+    "init_password": "loskew[xs2!P"
+    }
+
+### example response
+    {
+    "num_of_steps": "0"
+    }
+
 ## Project structure
 ```bash
 .
