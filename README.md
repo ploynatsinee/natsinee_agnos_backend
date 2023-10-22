@@ -31,6 +31,7 @@
 ```bash
 .
 ├── Dockerfile
+├── README.md
 ├── api
 │   ├── handlers
 │   │   └── password.go
@@ -49,18 +50,20 @@
 │   └── auth
 │       └── password
 │           └── password.go
-└── tests
-    └── unit_test
-        └── pkg
-            └── auth
-                └── password_test.go
+├── tests
+│   └── unit_test
+│       └── pkg
+│           └── auth
+│               └── password_test.go
+└── utils
+    └── hash.go
 ```
 
 ## Database records
 ```bash
 db=# SELECT * FROM logs;
- id | method |            url             | status | response_time 
-----+--------+----------------------------+--------+---------------
-  2 | GET    | /api/strong_password_steps |    422 |             2
-  3 | GET    | /api/strong_password_steps |    200 |             1
+ log_id |           timestamp           | method |            url             |                         request_body                         | response_status | response_time 
+--------+-------------------------------+--------+----------------------------+--------------------------------------------------------------+-----------------+---------------
+      1 | 2023-10-22 14:43:12.763451+00 | GET    | /api/strong_password_steps | $2a$10$x3DQwFBScRzXiuUCh58qrOHzvo1YPFDFlgP2gb9tt4qS2WRr0j24W |             200 |             1
+     34 | 2023-10-22 14:45:21.958982+00 | GET    | /api/strong_password_steps | $2a$10$FFgVAFwHm3v97a5Otg4lOu0eNB8UW2K4YeS8nkrN53SKoAiiYbZ2G |             422 |             0
 ```
