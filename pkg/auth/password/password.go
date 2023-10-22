@@ -5,16 +5,10 @@ import (
 	"unicode"
 )
 
-type PasswordRecommendation struct{}
+func RecommendStrongPassword(initPassword string) string {
+	numSteps := passwordLength(initPassword)
 
-func NewPasswordRecommendation() *PasswordRecommendation {
-	return &PasswordRecommendation{}
-}
-
-func (pr *PasswordRecommendation) RecommendStrongPassword(initPassword string) string {
-	numSteps := pr.PasswordLength(initPassword)
-
-	if !pr.ContainsLowerUpperDigit(initPassword) {
+	if !containsLowerUpperDigit(initPassword) {
 		if !unicode.IsLower(rune(initPassword[0])) || !unicode.IsUpper(rune(initPassword[0])) {
 			return "password must contain at least one lowercase and uppercase letter"
 		}
@@ -23,14 +17,18 @@ func (pr *PasswordRecommendation) RecommendStrongPassword(initPassword string) s
 		}
 	}
 
-	if !pr.NotContain3RepeatingCharacters(initPassword) {
+	if !notContain3RepeatingCharacters(initPassword) {
 		return "password must not contain 3 repeating characters in a row"
+	}
+
+	if !containsDotOrExclamationMark(initPassword) {
+		return "password must contain at least one dot or exclamation mark"
 	}
 
 	return strconv.Itoa(numSteps)
 }
 
-func (pr *PasswordRecommendation) PasswordLength(initPassword string) int {
+func passwordLength(initPassword string) int {
 	length := len(initPassword)
 
 	if length >= 6 && length < 20 {
@@ -42,7 +40,7 @@ func (pr *PasswordRecommendation) PasswordLength(initPassword string) int {
 	}
 }
 
-func (pr *PasswordRecommendation) ContainsLowerUpperDigit(initPassword string) bool {
+func containsLowerUpperDigit(initPassword string) bool {
 	hasLower := false
 	hasUpper := false
 	hasDigit := false
@@ -63,11 +61,20 @@ func (pr *PasswordRecommendation) ContainsLowerUpperDigit(initPassword string) b
 	return hasLower && hasUpper && hasDigit
 }
 
-func (pr *PasswordRecommendation) NotContain3RepeatingCharacters(initPassword string) bool {
+func notContain3RepeatingCharacters(initPassword string) bool {
 	for i := 0; i < len(initPassword)-2; i++ {
 		if initPassword[i] == initPassword[i+1] && initPassword[i] == initPassword[i+2] {
 			return false
 		}
 	}
 	return true
+}
+
+func containsDotOrExclamationMark(initPassword string) bool {
+	for _, char := range initPassword {
+		if char == '.' || char == '!' {
+			return true
+		}
+	}
+	return false
 }

@@ -16,8 +16,6 @@ type PasswordRequest struct {
 
 func PasswordHandler(db *pg.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		pr := password.NewPasswordRecommendation()
-
 		var request PasswordRequest
 
 		if err := c.ShouldBindJSON(&request); err != nil {
@@ -26,7 +24,7 @@ func PasswordHandler(db *pg.DB) gin.HandlerFunc {
 		}
 
 		initPassword := request.InitPassword
-		r := pr.RecommendStrongPassword(initPassword)
+		r := password.RecommendStrongPassword(initPassword)
 
 		if strings.HasPrefix(r, "password must") {
 			c.JSON(http.StatusUnprocessableEntity, gin.H{"error": r})

@@ -1,21 +1,11 @@
 package db
 
 import (
-	"fmt"
 	"log"
 	"os"
 
 	"github.com/go-pg/pg/v9"
-	"github.com/go-pg/pg/v9/orm"
 )
-
-type Log struct {
-	ID           int
-	Method       string
-	URL          string
-	Status       int
-	ResponseTime int
-}
 
 func Connect() *pg.DB {
 	db := connectToDB()
@@ -25,14 +15,11 @@ func Connect() *pg.DB {
 
 func connectToDB() *pg.DB {
 	options := &pg.Options{
-		Addr:     getEnv("DB_HOST", "127.0.0.1") + ":" + getEnv("DB_PORT", "5432"),
+		Addr:     getEnv("DB_HOST", "postgres") + ":" + getEnv("DB_PORT", "5432"),
 		User:     getEnv("DB_USERNAME", "postgres"),
 		Password: getEnv("DB_PASSWORD", "postgres"),
 		Database: getEnv("DB_DATABASE", "db"),
 	}
-
-	fmt.Printf("DB User: %s\n", options.User)
-	fmt.Printf("DB Password: %s\n", options.Password)
 
 	db := pg.Connect(options)
 	if db == nil {
@@ -44,16 +31,19 @@ func connectToDB() *pg.DB {
 }
 
 func createTable(db *pg.DB) {
-	opts := &orm.CreateTableOptions{
-		IfNotExists: true,
-	}
-
-	createError := db.CreateTable(&Log{}, opts)
-	if createError != nil {
-		log.Printf("Error while creating table, reason: %v\n", createError)
+	_, err := db.Exec(`CREATE TABLE IF NOT EXISTS logs (
+		ID SERIAL PRIMARY KEY,
+		method VARCHAR(255) NOT NULL,
+		url VARCHAR(255) NOT NULL,
+		status INT NOT NULL,
+		response_time INT NOT NULL
+	);`)
+	if err != nil {
+		log.Printf("Error while creating table, reason: %v\n", err)
 	} else {
 		log.Printf("Table created successfully")
 	}
+
 }
 
 func getEnv(key, fallback string) string {
