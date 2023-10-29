@@ -1,6 +1,6 @@
 # Backend Strong Password Recommendation steps
 
-## Assignment
+## Description
 
 1. Docker Setup: Set up a server with Docker Compose containing Nginx, a GoLang service, and a PostgreSQL database.
 2. Build Backend: Implement the backend server with the specified API.
